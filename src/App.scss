@@ -1,0 +1,37 @@
+@use './components/navbar/navbar';
+@use './pages/cryptocurrencies/cryptocurrencies';
+@use './pages/cryptoDetails/cryptoDetails';
+@use './pages/exchanges/exchanges';
+@use './pages/homepage/homepage';
+@use './pages/news/news';
+
+@use './variables';
+
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+a:hover {
+   color: variables.$dark-blue;
+}
+
+.app {
+   display: flex;
+   overflow: hidden;
+}
+
+.navbar {
+   flex: 0.2;
+   background-color: rgb(0, 21, 41);
+}
+
+.main {
+   flex: 0.8;
+   width: 100%;
+}
+
+.routes {
+   padding: 20px;
+}
