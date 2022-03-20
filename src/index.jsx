@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
+import 'antd/dist/antd.css';
 
 const rootElement = document.getElementById('root');
 
