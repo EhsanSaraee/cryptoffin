@@ -19,7 +19,7 @@ import {
    TrophyOutlined,
 } from '@ant-design/icons';
 import { v4 as uuid } from 'uuid';
-import { LineChart } from '../../components';
+import { LineChart, Loader } from '../../components';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -27,12 +27,14 @@ const { Option } = Select;
 const CryptoDetails = () => {
    const { coinID } = useParams();
    const [timePeriod, setTimePeriod] = useState('7d');
-   const { data: coinDetail, isFetching } = useGetCryptoDetailsQuery(coinID);
+   const { data, isFetching } = useGetCryptoDetailsQuery(coinID);
    const { data: coinHistory } = useGetCryptoHistoryQuery({
       coinID,
       timePeriod,
    });
-   const cryptoDetails = coinDetail?.data?.coin;
+   const cryptoDetails = data?.data?.coin;
+
+   if (isFetching) return <Loader />;
 
    const time = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y'];
 
@@ -107,11 +109,10 @@ const CryptoDetails = () => {
       <Col className="coin-detail-container">
          <Col className="coin-heading-container">
             <Title level={2} className="coin-name">
-               {coinDetail?.data?.coin?.name} ({coinDetail?.data?.coin?.symbol})
-               Price
+               {data?.data?.coin.name} ({data?.data?.coin.symbol}) Price
             </Title>
             <p>
-               {cryptoDetails?.name} Live price in US Dollar (USD). View value
+               {cryptoDetails.name} live price in US Dollar (USD). View value
                statistics, market cap and supply.
             </p>
          </Col>
@@ -122,7 +123,7 @@ const CryptoDetails = () => {
             onChange={(value) => setTimePeriod(value)}
          >
             {time.map((date) => (
-               <Option key={date}>{date}</Option>
+               <Option key={uuid()}>{date}</Option>
             ))}
          </Select>
          <LineChart
@@ -134,16 +135,16 @@ const CryptoDetails = () => {
             <Col className="coin-value-statistics">
                <Col className="coin-value-statistics-heading">
                   <Title level={3} className="coin-details-heading">
-                     {cryptoDetails?.name} Value Statistics
+                     {cryptoDetails.name} Value Statistics
                   </Title>
                   <p>
-                     An overview showing the statistics of {cryptoDetails?.name}
-                     , such as the base and quote currency, the rank, and
-                     trading volume.
+                     An overview showing the statistics of {cryptoDetails.name},
+                     such as the base and quote currency, the rank, and trading
+                     volume.
                   </p>
                </Col>
-               {stats?.map(({ icon, title, value }) => (
-                  <Col className="coin-stats" key={uuid()}>
+               {stats.map(({ icon, title, value }) => (
+                  <Col key={uuid()} className="coin-stats">
                      <Col className="coin-stats-name">
                         <Text>{icon}</Text>
                         <Text>{title}</Text>
@@ -158,13 +159,13 @@ const CryptoDetails = () => {
                      Other Stats Info
                   </Title>
                   <p>
-                     An overview showing the statistics of {cryptoDetails?.name}
-                     , such as the base and quote currency, the rank, and
-                     trading volume.
+                     An overview showing the statistics of {cryptoDetails.name},
+                     such as the base and quote currency, the rank, and trading
+                     volume.
                   </p>
                </Col>
-               {genericStats?.map(({ icon, title, value }) => (
-                  <Col className="coin-stats" key={uuid()}>
+               {genericStats.map(({ icon, title, value }) => (
+                  <Col key={uuid()} className="coin-stats">
                      <Col className="coin-stats-name">
                         <Text>{icon}</Text>
                         <Text>{title}</Text>
@@ -177,16 +178,13 @@ const CryptoDetails = () => {
          <Col className="coin-desc-link">
             <Row className="coin-desc">
                <Title level={3} className="coin-details-heading">
-                  What is {cryptoDetails?.name}?
+                  What is {cryptoDetails.name}?
                </Title>
                {HTMLReactParser(cryptoDetails.description)}
             </Row>
             <Col className="coin-links">
-               <Title level={3} className="coin-details-heading">
-                  {cryptoDetails?.name} Links
-               </Title>
-               {cryptoDetails?.links?.map((link) => (
-                  <Row key={link.name} className="coin-link">
+               {cryptoDetails.links?.map((link) => (
+                  <Row className="coin-link" key={link.name}>
                      <Title level={5} className="link-name">
                         {link.type}
                      </Title>

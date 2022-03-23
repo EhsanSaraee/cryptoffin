@@ -4,6 +4,8 @@
 @use './pages/exchanges/exchanges';
 @use './pages/homepage/homepage';
 @use './pages/news/news';
+@use './components/loader/loader';
+@use './components/lineChart/lineChart';
 
 @use './variables';
 
