@@ -123,7 +123,9 @@ const CryptoDetails = () => {
             onChange={(value) => setTimePeriod(value)}
          >
             {time.map((date) => (
-               <Option key={uuid()}>{date}</Option>
+               <Option value={date} key={uuid()}>
+                  {date}
+               </Option>
             ))}
          </Select>
          <LineChart

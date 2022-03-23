@@ -22,6 +22,16 @@
             color: white;
          }
       }
+
+      .menu-control-container {
+         display: none;
+         position: absolute;
+         right: 10px;
+         top: 25px;
+         font-size: 1.2rem;
+         background-color: variables.$bgSecondary;
+         border: none;
+      }
    }
 
    @media screen and (max-width: 800px) {
